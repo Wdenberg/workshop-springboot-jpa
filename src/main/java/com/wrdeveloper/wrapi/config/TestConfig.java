@@ -1,8 +1,10 @@
 package com.wrdeveloper.wrapi.config;
 
+import com.wrdeveloper.wrapi.entities.Category;
 import com.wrdeveloper.wrapi.entities.Order;
 import com.wrdeveloper.wrapi.entities.User;
 import com.wrdeveloper.wrapi.entities.enus.OrderStatus;
+import com.wrdeveloper.wrapi.repositores.CategoryRepository;
 import com.wrdeveloper.wrapi.repositores.OrderRepository;
 import com.wrdeveloper.wrapi.repositores.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +24,20 @@ public class TestConfig implements CommandLineRunner {
 
     @Autowired
     private OrderRepository orderRepository;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
+
     @Override
     public void run(String... args) throws Exception {
+
+        Category cat1 = new Category(null, "Electronics");
+        Category cat2 = new Category(null, "Books");
+        Category cat3 = new Category(null, "Computers");
+
+        categoryRepository.saveAll(Arrays.asList(cat1, cat2,cat3));
+
+
         User us = new User(null, "Wdenberg", "wdenberg@gmail.com", "123456", "99999999");
         User us1 = new User(null, "Berg Ramos", "berg@gmail.com", "123456", "8888888");
 

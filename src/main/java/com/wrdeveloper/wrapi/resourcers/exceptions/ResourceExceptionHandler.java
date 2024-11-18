@@ -1,5 +1,6 @@
 package com.wrdeveloper.wrapi.resourcers.exceptions;
 
+import com.wrdeveloper.wrapi.services.exceptions.DatabaseException;
 import com.wrdeveloper.wrapi.services.exceptions.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,15 @@ public class ResourceExceptionHandler {
 
     String error = "Resource Not Found";
         HttpStatus status = HttpStatus.NOT_FOUND;
+        StandardError err = new StandardError( Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(status).body(err);
+    }
+
+    @ExceptionHandler(DatabaseException.class)
+    public ResponseEntity<StandardError> dataIntegrity(DatabaseException e, HttpServletRequest request){
+
+        String error = "Database Error Exception";
+        HttpStatus status = HttpStatus.BAD_REQUEST;
         StandardError err = new StandardError( Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
         return ResponseEntity.status(status).body(err);
     }
